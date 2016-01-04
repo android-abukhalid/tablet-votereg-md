@@ -108,15 +108,14 @@
                 android:layout_height="fill_parent"
                 android:layout_weight=".6"
                 android:gravity="center"
-                android:padding="5dip"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:padding="5dip" >
 
                 <Button
                     android:id="@+id/changeDateNameOn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    
                     android:text="Birth Date"
                     android:textColor="#000000"
                     android:textSize="14sp"

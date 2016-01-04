@@ -63,11 +63,7 @@ public class YourResidenceAddressActivity extends Activity {
 					getString(R.string.StreetName));
 			return;
 		}
-		if (TextUtils.isEmpty(apt.getText().toString().trim())) {
-			AlertMessage.showMessage(con, getString(R.string.Status),
-					getString(R.string.Apt));
-			return;
-		}
+		
 
 		if (TextUtils.isEmpty(cityTown.getText().toString().trim())) {
 			AlertMessage.showMessage(con, getString(R.string.Status),

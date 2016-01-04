@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class YourMailingAddressActivity extends Activity {
 
@@ -47,16 +48,21 @@ public class YourMailingAddressActivity extends Activity {
 
 		// streetNumber, streetName, apt, cityTown, zipCode, county;
 
-		if (TextUtils.isEmpty(mailingaddress.getText().toString().trim())) {
-			AlertMessage.showMessage(con, getString(R.string.Status),
-					getString(R.string.Mailingaddress));
-			return;
-		}
+		if (mymailingaddress.isChecked() == true) {
+			Toast.makeText(con, "Please UNCheck and write your mailingaddress", 1000).show();
+		} else {
 
-		else {
-			Intent next = new Intent(con, PartyActivity.class);
-			startActivity(next);
-			finish();
+			if (TextUtils.isEmpty(mailingaddress.getText().toString().trim())) {
+				AlertMessage.showMessage(con, getString(R.string.Status),
+						getString(R.string.Mailingaddress));
+				return;
+			}
+
+			else {
+				Intent next = new Intent(con, PartyActivity.class);
+				startActivity(next);
+				finish();
+			}
 		}
 
 	}

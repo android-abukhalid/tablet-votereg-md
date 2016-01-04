@@ -119,6 +119,7 @@ public final class R {
         public static final int ZipCode=0x7f04001a;
         public static final int app_name=0x7f040000;
         public static final int deadlineinformation=0x7f040013;
+        public static final int driversLicenseid=0x7f04001e;
         public static final int firstName=0x7f040005;
         public static final int flurry_api_key=0x7f040006;
         public static final int hello_world=0x7f040001;
@@ -133,6 +134,7 @@ public final class R {
         public static final int questions1=0x7f04000c;
         public static final int questions2=0x7f04000d;
         public static final int signature=0x7f04000b;
+        public static final int socialSecurity=0x7f04001f;
         public static final int titlep1=0x7f040007;
         public static final int titlep2=0x7f040008;
         public static final int toregister=0x7f040012;

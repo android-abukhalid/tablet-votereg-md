@@ -31,5 +31,7 @@
     <string name="County">Pleae enter County</string>
      <string name="Mailingaddress">Pleae enter Mailing address</string>
      <string name="Signature">Pleae enter Signature</string>
+      <string name="driversLicenseid">Pleae enter Maryland Drivers License / ID #</string>
+       <string name="socialSecurity">Pleae enter Social Security Number(last 4 digits)</string>
 
 </resources>

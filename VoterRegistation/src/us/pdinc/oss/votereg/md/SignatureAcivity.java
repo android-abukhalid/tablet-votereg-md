@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import us.pdinc.oss.votereg.md.utls.AlertMessage;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -14,7 +16,9 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +50,15 @@ public class SignatureAcivity extends Activity {
 
 		canvas();
 		setDate();
+		
+		Output.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				showDialog(DATE_PICKER_ID);
+			}
+		});
 
 	}
 
@@ -99,6 +112,37 @@ public class SignatureAcivity extends Activity {
 		// Button listener to show date picker dialog
 
 	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DATE_PICKER_ID:
+
+			// open datepicker dialog.
+			// set date picker for current date
+			// add pickerListener listner to date picker
+			return new DatePickerDialog(this, pickerListener, year, month, day);
+		}
+		return null;
+	}
+
+	private DatePickerDialog.OnDateSetListener pickerListener = new DatePickerDialog.OnDateSetListener() {
+
+		// when dialog box is closed, below method will be called.
+		@Override
+		public void onDateSet(DatePicker view, int selectedYear,
+				int selectedMonth, int selectedDay) {
+
+			year = selectedYear;
+			month = selectedMonth;
+			day = selectedDay;
+
+			// Show selected date
+			Output.setText(new StringBuilder().append(month + 1).append("-")
+					.append(day).append("-").append(year).append(" "));
+
+		}
+	};
 
 	public void canvas() {
 		String captionString = signature.getText().toString();

@@ -1,9 +1,11 @@
 package us.pdinc.oss.votereg.md;
 
+import us.pdinc.oss.votereg.md.utls.AlertMessage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -41,13 +43,34 @@ public class IdNumbarActivity extends Activity {
 	}
 
 	public void setNext(View v) {
-		if (checkBoxID.isChecked() & checkBoxSSN.isChecked() == true) {
+		checkData();
 
+	}
+
+	public void checkData() {
+
+		// streetNumber, streetName, apt, cityTown, zipCode, county;
+
+		if (checkBoxID.isChecked() == false) {
+			if (TextUtils.isEmpty(driversLicenseid.getText().toString().trim())) {
+				AlertMessage.showMessage(con, getString(R.string.Status),
+						getString(R.string.driversLicenseid));
+				return;
+			}
+		}
+
+		if (checkBoxSSN.isChecked() == false) {
+			if (TextUtils.isEmpty(socialSecurity.getText().toString().trim())) {
+				AlertMessage.showMessage(con, getString(R.string.Status),
+						getString(R.string.socialSecurity));
+				return;
+			}
+		}
+
+		else {
 			Intent next = new Intent(con, YourResidenceAddressActivity.class);
 			startActivity(next);
 			finish();
-		} else {
-			Toast.makeText(con, "Please Check", 1000).show();
 		}
 
 	}

@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +29,15 @@ public class NameonLastRegistrationActivity extends Activity {
 	private int month;
 	private int day;
 	static final int DATE_PICKER_ID = 1111;
+	public static final String MyPREFERENCES = "MyPrefs";
+	public static final String slastName = "lastNameKey";
+	public static final String sfirstname = "firstnameKey";
+	public static final String smiddlename = "middlenameKey";
+	public static final String stitle = "titleKey";
+	public static final String sbirthDay = "birthDay";
+	
+	SharedPreferences sharedpreferences;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +54,49 @@ public class NameonLastRegistrationActivity extends Activity {
 		changeDate = (Button) findViewById(R.id.changeDateNameOn);
 
 		setBirthDay();
+		
+		
+		
+		if (sharedpreferences.contains(slastName)) {
+			lastName.setText(sharedpreferences.getString(slastName, ""));
+	    }
+		if (sharedpreferences.contains(sfirstname)) {
+			firstname.setText(sharedpreferences.getString(sfirstname, ""));
+	    }
+		if (sharedpreferences.contains(smiddlename)) {
+			middlename.setText(sharedpreferences.getString(smiddlename, ""));
+	    }
+		if (sharedpreferences.contains(stitle)) {
+			title.setText(sharedpreferences.getString(stitle, ""));
+	    }
+		
+		if (sharedpreferences.contains(sbirthDay)) {
+			Output.setText(sharedpreferences.getString(sbirthDay, ""));
+		}
+		
 	}
+	
+	
+	private void savePreferences() {
+		String lastNames = lastName.getText().toString();
+		String firstnames = firstname.getText().toString();
+		String middlenames = middlename.getText().toString();
+		String titles = title.getText().toString();
+
+		SharedPreferences.Editor editor = sharedpreferences.edit();
+
+		editor.putString(slastName, lastNames);
+		editor.putString(sfirstname, firstnames);
+		editor.putString(smiddlename, middlenames);
+		editor.putString(stitle, titles);
+		editor.putString(sbirthDay, Output.getText().toString());
+		editor.commit();
+
+		//Toast.makeText(con, "Save", 1000).show();
+
+	}
+	
+	
 
 	public void setCancel(View v) {
 		finish();
@@ -75,6 +127,7 @@ public class NameonLastRegistrationActivity extends Activity {
 			Intent next = new Intent(con,
 					AddressonLastRegistrationActivity.class);
 			startActivity(next);
+			savePreferences();
 			finish();
 		}
 

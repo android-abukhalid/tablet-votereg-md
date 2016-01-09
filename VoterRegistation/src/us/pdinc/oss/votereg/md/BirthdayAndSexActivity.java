@@ -8,7 +8,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +48,21 @@ public class BirthdayAndSexActivity extends Activity {
 	private int minMonth;
 	private int minDay;
 
+	private static final String SELECTED_INDEX = "SelectedIndex";
+
+	private OnCheckedChangeListener checkedChangedListener = new OnCheckedChangeListener() {
+
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			saveSelectedIndex(checkedId);
+		}
+	};
+
+	public static final String MyPREFERENCES = "MyPrefs";
+	public static final String sbirthDay = "birthDay";
+
+	SharedPreferences sharedpreferences;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,6 +77,16 @@ public class BirthdayAndSexActivity extends Activity {
 
 		// setBirthDay();
 
+		radiogroup.setOnCheckedChangeListener(checkedChangedListener);
+		RadioButton rbtn = ((RadioButton) radiogroup
+				.findViewById(getSelectedValue()));
+		if (rbtn != null) {
+			rbtn.setChecked(true);
+		}
+		sharedpreferences = getSharedPreferences(MyPREFERENCES,
+				Context.MODE_PRIVATE);
+
+		
 		final Calendar c = Calendar.getInstance();
 		mYear = c.get(Calendar.YEAR);
 		mMonth = c.get(Calendar.MONTH);
@@ -73,6 +102,10 @@ public class BirthdayAndSexActivity extends Activity {
 
 		// display the current date (this method is below)
 		updateDisplay(maxYear, maxMonth, maxDay);
+		
+		if (sharedpreferences.contains(sbirthDay)) {
+			Output.setText(sharedpreferences.getString(sbirthDay, ""));
+		}
 
 		changeDate.setOnClickListener(new OnClickListener() {
 
@@ -97,23 +130,23 @@ public class BirthdayAndSexActivity extends Activity {
 
 	}
 
-	private void setBirthDay() {
-		// TODO Auto-generated method stub
-		final Calendar c = Calendar.getInstance();
-		year = c.get(Calendar.YEAR);
-		month = c.get(Calendar.MONTH);
-		day = c.get(Calendar.DAY_OF_MONTH);
-
-		// Show current date
-
-		Output.setText(new StringBuilder()
-				// Month is 0 based, just add 1
-				.append(month + 1).append("-").append(day).append("-")
-				.append(year).append(" "));
-
-		// Button listener to show date picker dialog
-
-	}
+	// private void setBirthDay() {
+	// // TODO Auto-generated method stub
+	// final Calendar c = Calendar.getInstance();
+	// year = c.get(Calendar.YEAR);
+	// month = c.get(Calendar.MONTH);
+	// day = c.get(Calendar.DAY_OF_MONTH);
+	//
+	// // Show current date
+	//
+	// Output.setText(new StringBuilder()
+	// // Month is 0 based, just add 1
+	// .append(month + 1).append("-").append(day).append("-")
+	// .append(year).append(" "));
+	//
+	// // Button listener to show date picker dialog
+	//
+	// }
 
 	public void setCancel(View v) {
 		finish();
@@ -150,6 +183,7 @@ public class BirthdayAndSexActivity extends Activity {
 
 			Intent next = new Intent(con, IdNumbarActivity.class);
 			startActivity(next);
+			savePreferences();
 			finish();
 		}
 
@@ -229,4 +263,31 @@ public class BirthdayAndSexActivity extends Activity {
 		}
 		return null;
 	}
+
+	private int getSelectedValue() {
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		return pref.getInt(SELECTED_INDEX, -1);
+	}
+
+	private void saveSelectedIndex(int value) {
+		SharedPreferences.Editor editor = PreferenceManager
+				.getDefaultSharedPreferences(this).edit();
+		editor.putInt(SELECTED_INDEX, value);
+		editor.commit();
+	}
+
+	private void savePreferences() {
+		//String birth = Output.getText().toString();
+
+		SharedPreferences.Editor editor = sharedpreferences.edit();
+
+		editor.putString(sbirthDay, Output.getText().toString());
+
+		editor.commit();
+
+		// Toast.makeText(con, "Save", 1000).show();
+
+	}
+
 }

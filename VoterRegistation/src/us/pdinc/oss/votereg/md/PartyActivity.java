@@ -3,13 +3,16 @@ package us.pdinc.oss.votereg.md;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class PartyActivity extends Activity {
 
@@ -20,6 +23,16 @@ public class PartyActivity extends Activity {
 	public static int butID;
 	private RadioGroup radiogroup;
 	private RadioButton radioButton;
+	
+	private static final String SELECTED_INDEX = "SelectedIndex";
+
+	private OnCheckedChangeListener checkedChangedListener = new OnCheckedChangeListener() {
+
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			saveSelectedIndex(checkedId);
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,16 @@ public class PartyActivity extends Activity {
 		otherSpecify = (RadioButton) findViewById(R.id.checkBoxOtherSpecify);
 
 		radiogroup = (RadioGroup) findViewById(R.id.RadioGroupParty);
+		
+		
+		radiogroup.setOnCheckedChangeListener(checkedChangedListener);
+		RadioButton rbtn = ((RadioButton) radiogroup
+				.findViewById(getSelectedValue()));
+		if (rbtn != null) {
+			rbtn.setChecked(true);
+		}
+		
+		
 	}
 
 	public void setCancel(View v) {
@@ -77,5 +100,19 @@ public class PartyActivity extends Activity {
 		}
 
 	}
+	
+	private int getSelectedValue() {
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		return pref.getInt(SELECTED_INDEX, -1);
+	}
+
+	private void saveSelectedIndex(int value) {
+		SharedPreferences.Editor editor = PreferenceManager
+				.getDefaultSharedPreferences(this).edit();
+		editor.putInt(SELECTED_INDEX, value);
+		editor.commit();
+	}
+	
 
 }

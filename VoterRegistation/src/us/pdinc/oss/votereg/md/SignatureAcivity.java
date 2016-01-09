@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,6 +34,12 @@ public class SignatureAcivity extends Activity {
 	private int day;
 	static final int DATE_PICKER_ID = 1111;
 	String clear;
+	
+	public static final String MyPREFERENCES = "MyPrefs";
+	public static final String ssignature = "signatureKey";
+	public static final String sbirthDay = "birthDay";
+
+	SharedPreferences sharedpreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,19 @@ public class SignatureAcivity extends Activity {
 				showDialog(DATE_PICKER_ID);
 			}
 		});
+		
+		
+		sharedpreferences = getSharedPreferences(MyPREFERENCES,
+				Context.MODE_PRIVATE);
+
+		if (sharedpreferences.contains(ssignature)) {
+			signature
+					.setText(sharedpreferences.getString(ssignature, ""));
+		}
+		if (sharedpreferences.contains(sbirthDay)) {
+			Output.setText(sharedpreferences.getString(sbirthDay, ""));
+		}
+		
 
 	}
 
@@ -90,6 +110,7 @@ public class SignatureAcivity extends Activity {
 		} else {
 			Intent next = new Intent(con, NameonLastRegistrationActivity.class);
 			startActivity(next);
+			savePreferences();
 			finish();
 		}
 
@@ -171,5 +192,25 @@ public class SignatureAcivity extends Activity {
 					Toast.LENGTH_LONG).show();
 		}
 	}
+	
+	
+	private void savePreferences() {
+		String ssignatures = signature.getText().toString();
+		
+
+		SharedPreferences.Editor editor = sharedpreferences.edit();
+
+		editor.putString(ssignature, ssignatures);
+		editor.putString(sbirthDay, Output.getText().toString());
+
+		editor.commit();
+
+		// Toast.makeText(con, "Save", 1000).show();
+
+	}
+	
+	
+	
+	
 
 }

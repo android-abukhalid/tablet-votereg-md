@@ -63,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dip"
             android:button="@drawable/customdrawablecheckbox"
+            android:checked="true"
             android:gravity="center_vertical"
             android:padding="5dip"
             android:text="I do not have an ID"
@@ -71,7 +72,7 @@
             android:textStyle="bold" />
 
         <EditText
-              android:id="@+id/SocialSecurity"
+            android:id="@+id/SocialSecurity"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
@@ -89,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dip"
             android:button="@drawable/customdrawablecheckbox"
+            android:checked="true"
             android:gravity="center_vertical"
             android:padding="5dip"
             android:text="I do not have a SSN"
